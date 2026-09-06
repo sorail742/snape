@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "437594108156",
+    "project_id": "serpentsechellesparty",
+    "storage_bucket": "serpentsechellesparty.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437594108156:android:8876b5dc8b0a3e0bf8e779",
+        "android_client_info": {
+          "package_name": "com.mrmrs.serpentsparty.serpents_party"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrHrP3uwSEqX9svoAGxQqytYoYN5L9Z9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

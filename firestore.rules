@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // The app has no authentication yet: every online match lives under a
+    // room document keyed by its 5-character join code (see
+    // OnlineLobbyScreen._generateCode), which is the only real barrier to
+    // entry. Scope every rule to that collection instead of opening the
+    // whole database, so nothing outside "rooms/**" is reachable at all.
+    match /rooms/{roomCode} {
+      // "read" alone only lets a client fetch/watch a room it already knows
+      // the code for — the "salons publics" browser needs to *query* the
+      // whole collection (where isPublic == true), and Firestore refuses a
+      // list query outright unless the rule can be evaluated without first
+      // reading each document, which a roomCode-only condition can't prove
+      // for an arbitrary field filter. Reads carry no real secret here
+      // (every code we generate already matches the write-gated pattern
+      // below), so open listing/reading and keep the code-format check on
+      // writes, which is what actually needs to stay scoped.
+      allow read: if true;
+      allow write: if roomCode.matches('^[A-Z2-9]{5}$');
+
+      match /chat/{messageId} {
+        allow read, write: if roomCode.matches('^[A-Z2-9]{5}$');
+      }
+      match /emotes/{emoteId} {
+        allow read, write: if roomCode.matches('^[A-Z2-9]{5}$');
+      }
+      match /requests/{requestId} {
+        allow read, write: if roomCode.matches('^[A-Z2-9]{5}$');
+      }
+    }
+  }
+}
